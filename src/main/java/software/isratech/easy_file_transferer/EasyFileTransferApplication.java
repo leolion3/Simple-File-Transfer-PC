@@ -1,21 +1,18 @@
 package software.isratech.easy_file_transferer;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
+import lombok.NonNull;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+import static software.isratech.easy_file_transferer.view.NavigationController.setScene;
+
+public class EasyFileTransferApplication extends Application {
 
     @Override
-    public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("main-menu.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 520, 440);
-        stage.setTitle("Hello!");
-        stage.setScene(scene);
-        stage.show();
+    public void start(@NonNull final Stage stage) throws IOException {
+        setScene(Constants.APPLICATION_NAME, "main-menu.fxml", stage);
     }
 
     public static void main(String[] args) {

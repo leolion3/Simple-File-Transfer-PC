@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="software.isratech.easy_file_transferer.view.HelloController">
+<VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: white !important;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.2-ea"
+      fx:controller="software.isratech.easy_file_transferer.view.NavigationController">
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
-
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
+    <Label style="-fx-font-size: 32" text="Easy File Transferer" textAlignment="CENTER" />
+    <Label style="-fx-text-fill: grey !important;" text="Please select type send/receive!" textAlignment="CENTER" />
+    <Button onAction="#sendFileSelectorMenu" style="-fx-background-color: green !important; -fx-text-fill: white !important;" text="Send"/>
+    <Button onAction="#receiveFileSelectorMenu" style="-fx-background-color: red !important; -fx-text-fill: white !important;" text="Receive"/>
+    <Label text="A product of IsraTech" textAlignment="CENTER" />
+    <ImageView fitHeight="50" fitWidth="50" pickOnBounds="true" preserveRatio="true">
+        <Image url="@drawable/logo.jpeg" />
+    </ImageView>
 </VBox>

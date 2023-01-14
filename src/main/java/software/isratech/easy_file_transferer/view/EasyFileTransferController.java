@@ -3,7 +3,8 @@ package software.isratech.easy_file_transferer.view;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class HelloController {
+public class EasyFileTransferController {
+
     @FXML
     private Label welcomeText;
 
