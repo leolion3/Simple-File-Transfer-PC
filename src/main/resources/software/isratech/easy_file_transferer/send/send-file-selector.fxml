@@ -5,11 +5,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import org.controlsfx.control.ToggleSwitch?>
-<?import javafx.scene.text.Text?>
 <VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: white !important;"
       xmlns="http://javafx.com/javafx/17.0.2-ea"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="software.isratech.easy_file_transferer.view.SendFileSelectionController">
+      fx:controller="software.isratech.easy_file_transferer.view.send.SendFileSelectionController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
@@ -32,5 +31,5 @@
         <Button onAction="#mainMenu"
                 style="-fx-background-color: red !important; -fx-text-fill: white !important;" text="Back"/>
     </VBox>
-    <Label fx:id="errorMessageText" style="-fx-text-fill: red !important;" text="Error message area"/>
+    <Label fx:id="errorMessageLabel" style="-fx-text-fill: red !important;"/>
 </VBox>

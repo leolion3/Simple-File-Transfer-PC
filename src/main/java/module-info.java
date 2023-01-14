@@ -12,4 +12,6 @@ module software.isratech.easy_file_transferer {
     exports software.isratech.easy_file_transferer;
     exports software.isratech.easy_file_transferer.view;
     opens software.isratech.easy_file_transferer.view to javafx.fxml;
+    exports software.isratech.easy_file_transferer.view.send;
+    opens software.isratech.easy_file_transferer.view.send to javafx.fxml;
 }
