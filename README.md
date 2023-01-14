@@ -6,7 +6,7 @@ This is a companion App for the Python script <a href="https://github.com/leolio
 
 For more information, as well as the network protocol used by the application, check out the source code of the Android app on <a href="https://github.com/leolion3/Simple-File-Transferer-Android" target="_blank">Github</a>.
 
-Licensed in accords with the Apache License 2.0
+Licensed in accords with the Apache License 2.0 License.
 
 ## Author
 
