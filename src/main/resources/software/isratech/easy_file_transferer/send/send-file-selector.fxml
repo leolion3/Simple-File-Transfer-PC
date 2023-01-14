@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: white !important;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="software.isratech.easy_file_transferer.view.HelloController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+    <Label style="-fx-font-size: 32" text="Easy File Transferer" textAlignment="CENTER" />
+    <Label style="-fx-text-fill: grey !important;" text="Please select type send/receive!" textAlignment="CENTER" />
+    <Button onAction="#onHelloButtonClick" style="-fx-background-color: green !important;             -fx-text-fill: white !important;" text="Send" />
+    <Button onAction="#onHelloButtonClick" style="-fx-background-color: red !important;             -fx-text-fill: white !important;" text="Receive">
+        <graphic>
+
+        </graphic>
+    </Button>
+    <Label text="A product of IsraTech" textAlignment="CENTER" />
+    <ImageView fitHeight="50" fitWidth="50" pickOnBounds="true" preserveRatio="true">
+        <Image url="@drawable/logo.jpeg" />
+    </ImageView>
+</VBox>
