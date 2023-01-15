@@ -6,7 +6,7 @@
 
     <groupId>software.isratech</groupId>
     <artifactId>easy_file_transferer</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <name>Easy File Transferer</name>
 
     <properties>

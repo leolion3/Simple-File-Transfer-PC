@@ -1,4 +1,5 @@
 # Simple File Transfer PC
+<img alt="GitHub (Pre-)Release Date" src="https://img.shields.io/github/release-date-pre/leolion3/Simple-File-Transfer-PC?style=for-the-badge">
 
 Desktop version for the Android app <a href="https://play.google.com/store/apps/details?id=software.isratech.filetransferos" target="_blank">Open Source Easy File Transfer</a>.
 
@@ -13,6 +14,18 @@ Licensed in accords with the Apache License 2.0
 Created and authored by Leonard Haddad.
 
 <a href="https://leolion3.github.io/Portfolio" target="_blank"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" width="16" height="16"> Portfolio</a>
+
+## Building
+
+To build from source, simply clone this repository and execute
+
+```bash
+mvn clean verify javafx:run
+```
+
+This requires a valid maven installation with at least JDK 11.
+
+Alternatively, download the latest release from <a href="https://github.com/leolion3/Simple-File-Transfer-PC/releases" target="_blank">here</a>.
 
 ## Operating Systems
 
