@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: software.isratech.easy_file_transferer.EasyFileTransferAppli
+ cation
+
