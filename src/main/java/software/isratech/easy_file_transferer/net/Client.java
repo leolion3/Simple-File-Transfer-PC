@@ -1,5 +1,10 @@
 package software.isratech.easy_file_transferer.net;
 
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import lombok.*;
 import software.isratech.easy_file_transferer.hashing.Hashing;
 
@@ -29,17 +34,25 @@ public class Client {
     public void connect(
             @NonNull final String remoteHost,
             final int remotePort,
-            @NonNull final String exportFilePath
+            @NonNull final String exportFilePath,
+            @NonNull final Label connectionInfoLabel,
+            @NonNull final Label statusMessageLabel
     ) throws IOException, NoSuchAlgorithmException {
         final SocketAddress socketAddress = new InetSocketAddress(remoteHost, remotePort);
         try (final Socket socket = new Socket()) {
+            String connectionStatusText = String.format("Connecting to %s:%s...", remoteHost, remotePort);
+            updateTextLabel(connectionStatusText, connectionInfoLabel);
             socket.connect(socketAddress);
+            connectionStatusText += "\nConnection successful!";
+            updateTextLabel(connectionStatusText, connectionInfoLabel);
             final InputStream socketInputStream = socket.getInputStream();
             final BufferedReader reader = new BufferedReader(new InputStreamReader(socketInputStream));
             final PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
-            final Quadruple<String, Long, Boolean, Long> fileInfoQuadruple = handleInitialCommunication(reader, writer, exportFilePath);
-            final File receivedFile = receiveFile(socketInputStream, fileInfoQuadruple);
-            compareFileHashes(reader, writer, receivedFile);
+            final Quadruple<String, Long, Boolean, Long> fileInfoQuadruple = handleInitialCommunication(reader, writer, exportFilePath, statusMessageLabel);
+            final File receivedFile = receiveFile(socketInputStream, fileInfoQuadruple, statusMessageLabel);
+            updateTextLabel(String.format("%s%n%s", statusMessageLabel.getText(), "Computing hashes..."), statusMessageLabel);
+            compareFileHashes(reader, writer, receivedFile, statusMessageLabel);
+            updateTextLabel(String.format("%s%n%s", statusMessageLabel.getText(), "Transfer complete."), statusMessageLabel);
         }
     }
 
@@ -54,15 +67,21 @@ public class Client {
     private Quadruple<String, Long, Boolean, Long> handleInitialCommunication(
             @NonNull final BufferedReader reader,
             @NonNull final PrintWriter writer,
-            @NonNull final String exportFilePath
+            @NonNull final String exportFilePath,
+            @NonNull final Label statusMessageLabel
     ) throws IOException {
         long existingFileSize = 0L;
         sendMessage(writer, "init");
+        String transferStatusText = "Retrieving file info...";
+        updateTextLabel(transferStatusText, statusMessageLabel);
         final String fileName = receiveMessage(reader);
         sendMessage(writer, "Received Name");
         final long fileSize = receiveLong(reader);
+        transferStatusText += String.format("%nFile name: %s%nFile size: %s", fileName, getHumanReadableFileSize(fileSize));
+        updateTextLabel(transferStatusText, statusMessageLabel);
         final AtomicBoolean fileExists = new AtomicBoolean(false);
-        final File existingFile = getExistingFileUri(exportFilePath);
+        final Path absolutePath = Path.of(exportFilePath, fileName);
+        final File existingFile = getExistingFileUri(absolutePath.toAbsolutePath().toString());
         if (existingFile != null) {
             existingFileSize = Files.size(existingFile.toPath());
             sendMessage(writer, String.format("SIZE:%s", existingFileSize));
@@ -72,7 +91,7 @@ public class Client {
         }
         receiveMessage(reader);
         sendMessage(writer, "Beginning files transfer...");
-        return new Quadruple<>(fileName, fileSize, fileExists.get(), existingFileSize);
+        return new Quadruple<>(absolutePath.toAbsolutePath().toString(), fileSize, fileExists.get(), existingFileSize);
     }
 
     private File getExistingFileUri(
@@ -92,12 +111,34 @@ public class Client {
      */
     private void verifyHashesMatch(
             @NonNull final String receivedFileHash,
-            @NonNull final String fileHash
+            @NonNull final String fileHash,
+            @NonNull final File file,
+            @NonNull final Label statusMessageLabel
     ) {
         if (!receivedFileHash.equalsIgnoreCase(fileHash)) {
-            // todo
+            updateTextLabel(String.format("%s%n%s", statusMessageLabel.getText(), "Hashes mismatch!"), statusMessageLabel);
+            statusMessageLabel.setStyle("-fx-text-fill: red !important;");
+            Platform.runLater(() -> {
+                final Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Hashes mismatch!");
+                alert.setContentText("Hashes mismatch! Do you want to delete the file?");
+                final ButtonType delete = new ButtonType("Keep", ButtonBar.ButtonData.YES);
+                final ButtonType keep = new ButtonType("Delete", ButtonBar.ButtonData.NO);
+                alert.getButtonTypes().setAll(delete, keep);
+                alert.showAndWait().ifPresent(type -> {
+                    if (type == ButtonType.NO) {
+                        try {
+                            Files.delete(file.toPath());
+                        }
+                        catch (IOException e) {
+                            updateTextLabel(String.format("%s%n%s", statusMessageLabel.getText(), "Failed to delete file!"), statusMessageLabel);
+                        }
+                    }
+                });
+            });
         } else {
-            // todo
+            updateTextLabel(String.format("%s%n%s", statusMessageLabel.getText(), "File hashes match!"), statusMessageLabel);
+            statusMessageLabel.setStyle("-fx-text-fill: green !important;");
         }
     }
 
@@ -112,12 +153,13 @@ public class Client {
     private void compareFileHashes(
             @NonNull final BufferedReader reader,
             @NonNull final PrintWriter writer,
-            @NonNull final File file
+            @NonNull final File file,
+            @NonNull final Label statusMessageLabel
     ) throws IOException, NoSuchAlgorithmException {
         sendMessage(writer, "GIVE_ME_HASH");
         final String receivedFileHash = receiveMessage(reader);
         final String fileHash = Hashing.getSHA256FileHash(file);
-        verifyHashesMatch(receivedFileHash, fileHash);
+        verifyHashesMatch(receivedFileHash, fileHash, file, statusMessageLabel);
     }
 
     /**

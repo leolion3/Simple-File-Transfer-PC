@@ -12,9 +12,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import org.controlsfx.control.ToggleSwitch;
 import software.isratech.easy_file_transferer.net.Communication;
+import software.isratech.easy_file_transferer.utils.FileDownloadUtils;
 import software.isratech.easy_file_transferer.view.NavigationController;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -206,7 +208,7 @@ public class ReceiveFileSelectionController extends NavigationController impleme
      * Connect to server when an address is clicked.
      */
     @FXML
-    protected void handleAddressClicked(final MouseEvent ignored) {
+    protected void handleAddressClicked(final MouseEvent ignored) throws IOException {
         final String selectedItem = ipAddressList.getSelectionModel().getSelectedItem();
         if (selectedItem != null && !selectedItem.isBlank()) {
             this.selectedIPAddress = selectedItem;
@@ -219,13 +221,14 @@ public class ReceiveFileSelectionController extends NavigationController impleme
      * Handles clicking the receive button.
      */
     @FXML
-    protected void handleReceiveClicked() {
+    protected void handleReceiveClicked() throws IOException {
         this.selectedIPAddress = ipAddressTextField.getText();
         if (selectedIPAddress == null || selectedIPAddress.isBlank()) {
             selectedIPAddress = DEFAULT_LOOPBACK_ADDRESS;
         }
         final String port = portTextField.getText();
         try {
+            if (port.isBlank()) throw new IllegalArgumentException();
             this.selectedPort = Integer.parseInt(port);
         } catch (Exception ignored) {
             this.selectedPort = DEFAULT_PORT;
@@ -236,9 +239,14 @@ public class ReceiveFileSelectionController extends NavigationController impleme
     /**
      * Starts the client.
      */
-    protected void startClient() {
+    protected void startClient() throws IOException {
         this.stopScanning.set(true);
         this.isScanning = false;
+        final FileDownloadUtils fileDownloadUtils = FileDownloadUtils.getInstance();
+        fileDownloadUtils.setSelectedPath(this.selectedFilePath);
+        fileDownloadUtils.setIpAddress(this.selectedIPAddress);
+        fileDownloadUtils.setPort(this.selectedPort);
+        setActiveMenu(CurrentScene.RECEIVING_FILE);
     }
 
     @Override

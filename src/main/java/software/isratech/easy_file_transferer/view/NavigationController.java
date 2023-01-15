@@ -38,11 +38,6 @@ public class NavigationController {
         setActiveMenu(CurrentScene.RECEIVE_FILE_SELECTOR);
     }
 
-    @FXML
-    protected void receivingFileMenu() throws IOException {
-        setActiveMenu(CurrentScene.RECEIVING_FILE);
-    }
-
     /**
      * Sets the active scene using the scene's name.
      *

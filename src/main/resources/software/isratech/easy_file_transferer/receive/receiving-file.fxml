@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: white !important;"
+      xmlns="http://javafx.com/javafx/17.0.2-ea"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="software.isratech.easy_file_transferer.view.receive.ReceivingFileController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+    <Label style="-fx-font-size: 32" text="Receiving File" textAlignment="CENTER"/>
+    <Label style="-fx-text-fill: grey !important;" fx:id="connectionInfoLabel" textAlignment="CENTER"/>
+    <Label style="-fx-text-fill: grey !important;" fx:id="statusMessageLabel" textAlignment="CENTER"/>
+    <VBox fx:id="buttonsVBox" alignment="CENTER" spacing="20.0" visible="false">
+        <Button onAction="#receiveFileSelectorMenu"
+                style="-fx-background-color: green !important; -fx-text-fill: white !important;" text="Receive another!"/>
+        <Button onAction="#mainMenu"
+                style="-fx-background-color: red !important; -fx-text-fill: white !important;" text="Back"/>
+    </VBox>
+    <Label fx:id="errorMessageLabel" style="-fx-text-fill: red !important;" visible="false" textAlignment="CENTER"/>
+</VBox>

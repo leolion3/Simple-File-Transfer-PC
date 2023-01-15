@@ -26,16 +26,6 @@ import static software.isratech.easy_file_transferer.net.Communication.*;
 public class Server {
 
     /**
-     * Set the content of a javaFX label from the server thread.
-     *
-     * @param message - the message to put in the label.
-     * @param label   - the label to update
-     */
-    private void updateTextLabel(@NonNull final String message, @NonNull final Label label) {
-        Platform.runLater(() -> label.setText(message));
-    }
-
-    /**
      * Starts a listener which serves files to remote clients
      *
      * @param serverSocket - the server socket, passed so it can be closed externally

@@ -26,6 +26,16 @@ import static software.isratech.easy_file_transferer.Constants.*;
 public class Communication {
 
     /**
+     * Set the content of a javaFX label from a different thread.
+     *
+     * @param message - the message to put in the label.
+     * @param label   - the label to update
+     */
+    public static void updateTextLabel(@NonNull final String message, @NonNull final Label label) {
+        Platform.runLater(() -> label.setText(message));
+    }
+
+    /**
      * Write some text to a printWriter.
      *
      * @param writer  - the writer to write the text to.
@@ -67,20 +77,29 @@ public class Communication {
     @NonNull
     public static File receiveFile(
             @NonNull final InputStream is,
-            @NonNull final Client.Quadruple<String, Long, Boolean, Long> fileInfoQuadruple
+            @NonNull final Client.Quadruple<String, Long, Boolean, Long> fileInfoQuadruple,
+            @NonNull final Label statusMessageLabel
     ) throws IOException {
         try (
                 final BufferedOutputStream bufferedWriter = new BufferedOutputStream(
                         new FileOutputStream(fileInfoQuadruple.getFirst(), fileInfoQuadruple.getThird()))
         ) {
             long receivedLength = fileInfoQuadruple.getFourth();
+            final String transferStatusText = statusMessageLabel.getText();
+            final String fileSize = getHumanReadableFileSize(fileInfoQuadruple.getSecond());
+            String receivedSize = getHumanReadableFileSize(receivedLength);
+            final String formatText = "%s%nReceived %s/%s";
+            updateTextLabel(String.format(formatText, transferStatusText, receivedSize, fileSize), statusMessageLabel);
             while (receivedLength < fileInfoQuadruple.getSecond()) {
                 int code;
                 byte[] buffer = new byte[Math.toIntExact(getBufferSize(fileInfoQuadruple.getSecond(), receivedLength))];
                 code = is.read(buffer);
                 bufferedWriter.write(buffer, 0, code);
                 receivedLength += code;
+                receivedSize = getHumanReadableFileSize(receivedLength);
+                updateTextLabel(String.format(formatText, transferStatusText, receivedSize, fileSize), statusMessageLabel);
             }
+            updateTextLabel(transferStatusText + "\nReceived file.", statusMessageLabel);
             bufferedWriter.flush();
             return new File(fileInfoQuadruple.getFirst());
         } catch (IOException e) {
@@ -151,7 +170,7 @@ public class Communication {
                 hostAddressSplit[1],
                 hostAddressSplit[2]
         );
-        for (int i = 100; i < 256; i++) {
+        for (int i = 0; i < 256; i++) {
             if (stopScanning.get()) break;
             final String hostName = subnet + i;
             try (final Socket socket = new Socket()) {
