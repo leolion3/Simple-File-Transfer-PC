@@ -1,5 +1,8 @@
 package software.isratech.easy_file_transferer.net;
 
+import javafx.application.Platform;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -124,13 +127,22 @@ public class Communication {
      * @param stopScanning  - used to stop scanning for hosts
      * @return a list of all available servers and their mac addresses
      */
-    public static List<String> getAvailableServers(
+    public static void getAvailableServers(
             final int port,
-            final AtomicBoolean stopScanning
-    ) {
+            final AtomicBoolean stopScanning,
+            final ListView<String> listView,
+            final Label infoTextField
+            ) {
         final List<String> result = new ArrayList<>();
         final String hostAddress = getIpAddress();
-        if (DEFAULT_LOOPBACK_ADDRESS.equalsIgnoreCase(hostAddress)) return result;
+        if (DEFAULT_LOOPBACK_ADDRESS.equalsIgnoreCase(hostAddress)) {
+            Platform.runLater(() -> {
+                infoTextField.setText("Cant ping yourself!");
+                infoTextField.setStyle("-fx-text-fill: red !important;");
+                infoTextField.setVisible(true);
+            });
+            return;
+        }
         final String[] hostAddressSplit = Objects.requireNonNull(hostAddress).split("\\.");
         if (hostAddressSplit.length < 3) throw new IllegalArgumentException("Cannot find subnet!");
         final String subnet = String.format(
@@ -139,20 +151,30 @@ public class Communication {
                 hostAddressSplit[1],
                 hostAddressSplit[2]
         );
-        for (int i = 0; i < 256; i++) {
+        for (int i = 100; i < 256; i++) {
             if (stopScanning.get()) break;
             final String hostName = subnet + i;
             try (final Socket socket = new Socket()) {
+                Platform.runLater(() -> infoTextField.setText("Pinging " + hostName + "..."));
                 final SocketAddress socketAddress = new InetSocketAddress(hostName, port);
                 socket.connect(socketAddress, 250);
                 if (pingServer(socket)) {
-                    // todo show results
+                    result.add(hostName);
+                    Platform.runLater(() -> listView.getItems().add(hostName));
                 }
             } catch (Exception e) {
                 // ignored
             }
         }
-        return result;
+        if (result.isEmpty()) {
+            Platform.runLater(() -> {
+                infoTextField.setText("No servers found!");
+                infoTextField.setStyle("-fx-text-fill: red !important;");
+                infoTextField.setVisible(true);
+            });
+            return;
+        }
+        Platform.runLater(() -> infoTextField.setVisible(false));
     }
 
     /**

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import org.controlsfx.control.ToggleSwitch?>
+<VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: white !important;"
+      xmlns="http://javafx.com/javafx/17.0.2-ea"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="software.isratech.easy_file_transferer.view.receive.ReceiveFileSelectionController">
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0"/>
+    </padding>
+    <Label style="-fx-font-size: 32" text="Send File" textAlignment="CENTER"/>
+    <Label style="-fx-text-fill: grey !important;" text="Select location to save file!" textAlignment="CENTER"/>
+    <HBox alignment="CENTER">
+        <TextField fx:id="selectedPathTextField" promptText="Path/to/file" disable="true"/>
+        <Button fx:id="pathSelectionButton" onAction="#selectSaveFilePath" text="Choose"/>
+    </HBox>
+    <HBox fx:id="networkSettingsHBox" alignment="CENTER" spacing="10.0">
+        <Label fx:id="networkModeLabel" text="Auto" alignment="CENTER_RIGHT"/>
+        <ToggleSwitch fx:id="networkModeSwitch"/>
+        <Button fx:id="scanButton"
+                onAction="#scanForServers"
+                style="-fx-background-color: orange !important; -fx-text-fill: white !important;"
+                text="Scan"/>
+    </HBox>
+    <VBox fx:id="networkSettingsContainer" alignment="CENTER">
+        <VBox alignment="CENTER" fx:id="autoNetworkModeVBox" spacing="10.0">
+            <ListView fx:id="ipAddressList" onMouseClicked="#handleAddressClicked" maxWidth="300" maxHeight="150"/>
+        </VBox>
+        <VBox fx:id="advancedNetworkVBox" alignment="CENTER" spacing="10.0">
+            <padding>
+                <Insets bottom="10.0"/>
+            </padding>
+            <TextField fx:id="ipAddressTextField" focusTraversable="false" promptText="IP Address"
+                       style="-fx-max-width: 180px"/>
+            <TextField fx:id="portTextField" focusTraversable="false" promptText="Port" style="-fx-max-width: 180px"/>
+            <Button onAction="#handleReceiveClicked"
+                    fx:id="receiveButton"
+                    style="-fx-background-color: green !important; -fx-text-fill: white !important;" text="Receive"/>
+        </VBox>
+    </VBox>
+    <Button onAction="#mainMenu"
+            style="-fx-background-color: red !important; -fx-text-fill: white !important;" text="Back"/>
+    <Label fx:id="errorMessageLabel" style="-fx-text-fill: red !important;" visible="false"/>
+</VBox>
