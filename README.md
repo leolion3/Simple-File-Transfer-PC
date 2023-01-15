@@ -30,3 +30,7 @@ Alternatively, download the latest release from <a href="https://github.com/leol
 ## Operating Systems
 
 This App is written with cross-platform support. It runs on any operating system with Java 11. 
+
+## Preview
+
+<img width="515" alt="image" src="https://user-images.githubusercontent.com/45939246/212549119-349d5aa1-8f91-420a-a66a-7213278cbcd5.png">
