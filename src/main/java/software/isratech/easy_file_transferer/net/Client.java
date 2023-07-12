@@ -14,6 +14,7 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -80,7 +81,7 @@ public class Client {
         transferStatusText += String.format("%nFile name: %s%nFile size: %s", fileName, getHumanReadableFileSize(fileSize));
         updateTextLabel(transferStatusText, statusMessageLabel);
         final AtomicBoolean fileExists = new AtomicBoolean(false);
-        final Path absolutePath = Path.of(exportFilePath, fileName);
+        final Path absolutePath = Paths.get(exportFilePath + fileName);
         final File existingFile = getExistingFileUri(absolutePath.toAbsolutePath().toString());
         if (existingFile != null) {
             existingFileSize = Files.size(existingFile.toPath());
@@ -97,7 +98,7 @@ public class Client {
     private File getExistingFileUri(
             @NonNull final String filePath
     ) {
-        if (Files.exists(Path.of(filePath))) {
+        if (Files.exists(Paths.get(filePath))) {
             return new File(filePath);
         }
         return null;

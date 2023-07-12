@@ -91,7 +91,7 @@ public class SendFileSelectionController extends NavigationController implements
         final FileUploadUtils fileUploadUtils = FileUploadUtils.getInstance();
         fileUploadUtils.setFile(selectedFile);
         final String selectedIPAddress = ipAddressTextField.getText();
-        fileUploadUtils.setIpAddress(selectedIPAddress == null || selectedIPAddress.isBlank() ? DEFAULT_BIND_ADDRESS : selectedIPAddress);
+        fileUploadUtils.setIpAddress(selectedIPAddress == null || selectedIPAddress.isEmpty() ? DEFAULT_BIND_ADDRESS : selectedIPAddress);
         final String selectedPort = portTextField.getText();
         int port = DEFAULT_PORT;
         try {

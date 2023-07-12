@@ -210,7 +210,7 @@ public class ReceiveFileSelectionController extends NavigationController impleme
     @FXML
     protected void handleAddressClicked(final MouseEvent ignored) throws IOException {
         final String selectedItem = ipAddressList.getSelectionModel().getSelectedItem();
-        if (selectedItem != null && !selectedItem.isBlank()) {
+        if (selectedItem != null && !selectedItem.isEmpty()) {
             this.selectedIPAddress = selectedItem;
             this.selectedPort = DEFAULT_PORT;
             startClient();
@@ -223,12 +223,12 @@ public class ReceiveFileSelectionController extends NavigationController impleme
     @FXML
     protected void handleReceiveClicked() throws IOException {
         this.selectedIPAddress = ipAddressTextField.getText();
-        if (selectedIPAddress == null || selectedIPAddress.isBlank()) {
+        if (selectedIPAddress == null || selectedIPAddress.isEmpty()) {
             selectedIPAddress = DEFAULT_LOOPBACK_ADDRESS;
         }
         final String port = portTextField.getText();
         try {
-            if (port.isBlank()) throw new IllegalArgumentException();
+            if (port.isEmpty()) throw new IllegalArgumentException();
             this.selectedPort = Integer.parseInt(port);
         } catch (Exception ignored) {
             this.selectedPort = DEFAULT_PORT;
