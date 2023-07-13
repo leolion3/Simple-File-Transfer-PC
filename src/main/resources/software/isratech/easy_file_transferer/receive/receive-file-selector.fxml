@@ -12,7 +12,7 @@
     <padding>
         <Insets bottom="10.0" left="10.0" right="10.0"/>
     </padding>
-    <Label style="-fx-font-size: 32" text="Send File" textAlignment="CENTER"/>
+    <Label style="-fx-font-size: 32" text="Receive File" textAlignment="CENTER"/>
     <Label style="-fx-text-fill: grey !important;" text="Select location to save file!" textAlignment="CENTER"/>
     <HBox alignment="CENTER">
         <TextField fx:id="selectedPathTextField" promptText="Path/to/file" disable="true"/>
