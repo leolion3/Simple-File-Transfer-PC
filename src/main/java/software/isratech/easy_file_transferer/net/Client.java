@@ -81,7 +81,7 @@ public class Client {
         transferStatusText += String.format("%nFile name: %s%nFile size: %s", fileName, getHumanReadableFileSize(fileSize));
         updateTextLabel(transferStatusText, statusMessageLabel);
         final AtomicBoolean fileExists = new AtomicBoolean(false);
-        final Path absolutePath = Paths.get(exportFilePath + fileName);
+        final Path absolutePath = Paths.get(String.format("%s/%s", exportFilePath, fileName));
         final File existingFile = getExistingFileUri(absolutePath.toAbsolutePath().toString());
         if (existingFile != null) {
             existingFileSize = Files.size(existingFile.toPath());
