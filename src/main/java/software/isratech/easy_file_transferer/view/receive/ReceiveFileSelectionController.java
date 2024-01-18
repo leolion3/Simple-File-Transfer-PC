@@ -196,6 +196,9 @@ public class ReceiveFileSelectionController extends NavigationController impleme
         final File selectedPath = directoryChooser.showDialog(stage);
         if (selectedPath != null) {
             this.selectedFilePath = selectedPath.getAbsolutePath();
+            if (!this.selectedFilePath.endsWith("/")) {
+                this.selectedFilePath += "/";
+            }
             networkSettingsHBox.setVisible(true);
             changeVBoxContent(false);
             selectedPathTextField.setText(this.selectedFilePath);
