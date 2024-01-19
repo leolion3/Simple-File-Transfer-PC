@@ -1,5 +1,7 @@
 # Simple File Transfer PC
-<img alt="GitHub (Pre-)Release Date" src="https://img.shields.io/github/release-date-pre/leolion3/Simple-File-Transfer-PC?style=for-the-badge">
+<a href="https://github.com/leolion3/Simple-File-Transfer-PC/releases" target="_blank" rel="no-referer">
+  <img alt="GitHub (Pre-)Release Date" src="https://img.shields.io/github/release-date-pre/leolion3/Simple-File-Transfer-PC?style=for-the-badge">
+</a>
 
 Desktop version for the Android app <a href="https://play.google.com/store/apps/details?id=software.isratech.filetransferos" target="_blank">Open Source Easy File Transfer</a>.
 
