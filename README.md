@@ -3,6 +3,10 @@
   <img alt="GitHub (Pre-)Release Date" src="https://img.shields.io/github/release-date-pre/leolion3/Simple-File-Transfer-PC?style=for-the-badge">
 </a>
 
+<a aria-label="Hippocratic License HL3-FULL" href="https://firstdonoharm.dev/version/3/0/full.html" target="_blank" rel="noreferrer nofollow">
+  <img aria-label="Hippocratic License HL3-FULL" src="https://img.shields.io/static/v1?label=Hippocratic%20License&amp;message=HL3-FULL&amp;labelColor=5e2751&amp;color=bc8c3d">
+</a>
+
 Desktop version for the Android app <a href="https://play.google.com/store/apps/details?id=software.isratech.filetransferos" target="_blank">Open Source Easy File Transfer</a>.
 
 This is a companion App for the Python script <a href="https://github.com/leolion3/Portfolio/tree/master/Python/FileSender" target="_blank">ptransfer</a>.
